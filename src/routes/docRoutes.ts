@@ -1,5 +1,5 @@
 import express from "express";
-import { createDoc, deleteDoc, getDocByID, updateDoc } from "src/controllers/docController";
+import { createDoc, deleteDoc, getDocByID, updateDoc } from "../controllers/docController";
 
 const router = express.Router();
 

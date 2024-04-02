@@ -1,5 +1,5 @@
-import { AppDataSource } from "src/config/data-source";
-import { Book } from "src/models/Book";
+import { AppDataSource } from "../config/data-source";
+import { Book } from "../models/Book";
 import { UpdateResult } from "typeorm";
 
 export class BookService {

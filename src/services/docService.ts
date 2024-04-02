@@ -1,5 +1,5 @@
-import { AppDataSource } from "src/config/data-source";
-import { Doc } from "src/models/Doc";
+import { AppDataSource } from "../config/data-source";
+import { Doc } from "../models/Doc";
 import { UpdateResult } from "typeorm";
 
 export class DocService {
