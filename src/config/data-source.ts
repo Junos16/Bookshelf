@@ -1,14 +1,14 @@
 import { DataSource } from "typeorm";
-import { Book } from "./entities/Book";
-import { Doc } from "./entities/Doc";
-import { User } from "./entities/User";
+import { Book } from "../models/Book";
+import { Doc } from "../models/Doc";
+import { User } from "../models/User";
 
 export const AppDataSource = new DataSource({
-    type: "postgres",
+    type: "mysql",
     host: "localhost",
-    port: 5432,
-    username: "test",
-    password: "test",
+    port: 3306,
+    username: "root",
+    password: "mysql",
     database: "test",
     entities: [User, Book, Doc],
     synchronize: true,

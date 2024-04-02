@@ -1,16 +1,16 @@
 import "reflect-metadata";
-import express from "express";
-import { AppDataSource } from "./data-source";
+import express, { Express, Request, Response } from "express";
+import { AppDataSource } from "./config/data-source";
 
 const main = async () => {
-    const app = express();
+    const app: Express = express();
     AppDataSource.initialize();
 
     app.listen(4000, () => {
         console.log("Server initialized on localhost:4000")
     });
 
-    app.get('/', (_req, res) => {
+    app.get('/', (_req: Request, res: Response) => {
         res.send("Hello World")
     })
 }
