@@ -11,13 +11,13 @@ export class BookService {
     }
 
     async getBookByISBN(bookISBN: number): Promise<Book | null> {
-        return await this.bookRepository.findOneBy({isbn: bookISBN});
+        return await this.bookRepository.findOneBy({ isbn: bookISBN });
     }
 
     async updateBook(bookISBN: number, newData: Partial<Book>): Promise<Book | null> {
         const updatedBook: UpdateResult = await this.bookRepository.update(bookISBN, newData);
         if(updatedBook.affected === 0) return null;
-        return await this.bookRepository.findOneBy({isbn: bookISBN});
+        return await this.bookRepository.findOneBy({ isbn: bookISBN });
     }
 
     async deleteBook(bookISBN: number): Promise<void> {
