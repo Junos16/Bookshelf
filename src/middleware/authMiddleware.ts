@@ -7,7 +7,7 @@ const JWT_SECRET = "test_secret";
 const UserRepository = AppDataSource.getRepository(User);
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined | void> => {
-    const token = req.body["token"];
+    const token = req.header("headers");
 
     if(!token) {
         return res.status(401).json({ message: "Authorization token missing" });

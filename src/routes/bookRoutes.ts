@@ -1,11 +1,20 @@
 import express from "express";
+//import multer from "multer";
 import { createBook, deleteBook, getBookByISBN, updateBook } from "../controllers/bookController";
+import { requireAuth, requireRole } from "../middleware/authMiddleware";
 
-const router = express.Router();
+const bookRouter = express.Router();
+// const upload = multer({ dest: "/books" });
 
-router.post("/", createBook);
-router.get("/:id", getBookByISBN);
-router.put("/:id", updateBook);
-router.delete("/:id", deleteBook);
+bookRouter.post("/", 
+    requireAuth, 
+    requireRole("Admin"),
+    // upload.single("pdf"),
+    createBook
+);
 
-export default router;
+bookRouter.get("/:id", getBookByISBN);
+bookRouter.put("/:id", requireAuth, requireRole("Admin"), updateBook);
+bookRouter.delete("/:id", requireAuth, requireRole("Admin"), deleteBook);
+
+export default bookRouter;
