@@ -11,13 +11,13 @@ export class DocService {
     }
 
     async getDocByID(docID: number): Promise<Doc | null> {
-        return await this.docRepository.findOneBy({id: docID});
+        return await this.docRepository.findOneBy({ id: docID });
     }
 
     async updateDoc(docID: number, newData: Partial<Doc>): Promise<Doc | null> {
         const updatedDoc: UpdateResult = await this.docRepository.update(docID, newData);
         if(updatedDoc.affected === 0) return null;
-        return await this.docRepository.findOneBy({id: docID});
+        return await this.docRepository.findOneBy({ id: docID });
     }
 
     async deleteDoc(docID: number): Promise<void> {
