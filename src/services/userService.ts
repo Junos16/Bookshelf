@@ -1,5 +1,5 @@
-import { AppDataSource } from "config/data-source";
-import { User } from "models/User";
+import { AppDataSource } from "../config/data-source";
+import { User } from "../models/User";
 import { UpdateResult } from "typeorm";
 
 export class UserService {

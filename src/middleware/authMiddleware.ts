@@ -27,7 +27,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
 export const requireRole = (role: string) => {
     return (req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> | undefined | void => {
-        if(!req.user || !req.user.role.includes(role)) {
+        if(!req.user || req.user.role != role) {
             return res.status(403).json({ message: "Forbidden" });
         }
         next();

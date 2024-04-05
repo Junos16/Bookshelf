@@ -4,7 +4,7 @@ import cors from "cors";
 import { AppDataSource } from "./config/data-source";
 import bookRoutes from "./routes/bookRoutes";
 import docRoutes from "./routes/docRoutes";
-// import userRoutes from "./routes/userRoutes";
+import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/authRoutes";
 import { corsOptions } from "./config/corsOptions";
 
@@ -15,7 +15,7 @@ const main = async () => {
 
     app.use("/book", bookRoutes);
     app.use("/doc", docRoutes);
-    // app.use("/user", userRoutes);
+    app.use("/user", userRoutes);
     app.use("/auth", authRoutes);
 
     app.listen(4000, () => {

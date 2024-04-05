@@ -22,10 +22,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "paths": {
-      "*": ["src/*"],
-      "custom-express": ["custom.d.ts"]
-    }
+    "typeRoots": ["./types"]
   },
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts"]
