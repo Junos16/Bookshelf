@@ -8,13 +8,13 @@ const bookRouter = express.Router();
 
 bookRouter.post("/", 
     requireAuth, 
-    requireRole("Admin"),
+    requireRole("admin"),
     // upload.single("pdf"),
     createBook
 );
 
-bookRouter.get("/:id", getBookByISBN);
-bookRouter.put("/:id", requireAuth, requireRole("Admin"), updateBook);
-bookRouter.delete("/:id", requireAuth, requireRole("Admin"), deleteBook);
+bookRouter.get("/:isbn", getBookByISBN);
+bookRouter.put("/:isbn", requireAuth, requireRole("admin"), updateBook);
+bookRouter.delete("/:isbn", requireAuth, requireRole("admin"), deleteBook);
 
 export default bookRouter;

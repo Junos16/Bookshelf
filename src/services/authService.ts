@@ -1,4 +1,4 @@
-import * as bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { AppDataSource } from "../config/data-source";
 import { User } from "../models/User";
@@ -15,7 +15,7 @@ export class AuthService {
         const isValidPassword = await bcrypt.compareSync(password, user.password);
         if(!isValidPassword) return null;
 
-        const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1h" });
         return token;
     };
 
@@ -26,7 +26,8 @@ export class AuthService {
         if(existingUser) throw new Error("User with same email and username already exists");
 
         const hashedPassword = await bcrypt.hash(userData.password!, 10);
-        const newUser = this.UserRepository.create({ ...userData, password: hashedPassword });
+        userData.password = hashedPassword;
+        const newUser = this.UserRepository.create({ ...userData });
         return await newUser.save();
     }
-}
+}   

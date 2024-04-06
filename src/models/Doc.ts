@@ -5,16 +5,16 @@ export class Doc extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ default: "cancert" })
     title: string
 
-    @Column()
+    @Column({ default: "cancer" })
     author: string
 
-    @Column()
+    @Column({ default: "cencer" })
     department: string
 
-    @Column()
+    @Column({ default: "ccner" })
     language: string
 
     @CreateDateColumn()

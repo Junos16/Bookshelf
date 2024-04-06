@@ -4,9 +4,9 @@ import { requireAuth, requireRole } from "../middleware/authMiddleware";
 
 const userRouter = express.Router();
 
-userRouter.post("/", requireAuth, requireRole("Admin"), createUser);
-userRouter.get("/:id", requireAuth, requireRole("Admin"), getUserByID);
-userRouter.put(":/id", requireAuth, requireRole("Admin"), updateUser);
-userRouter.delete("/:id", requireAuth, requireRole("Admin"), deleteUser);
+userRouter.post("/", requireAuth, requireRole("admin"), createUser);
+userRouter.get("/:id", requireAuth, requireRole("admin"), getUserByID);
+userRouter.put(":/id", requireAuth, requireRole("admin"), updateUser);
+userRouter.delete("/:id", requireAuth, requireRole("admin"), deleteUser);
 
 export default userRouter;
