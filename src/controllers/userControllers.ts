@@ -3,14 +3,14 @@ import { UserService } from "../services/userService";
 
 const userService = new UserService();
 
-export const createUser = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const newUser = await userService.createUser(req.body);
-        res.status(201).json(newUser)
-    } catch(error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+// export const createUser = async (req: Request, res: Response): Promise<void> => {
+//     try {
+//         const newUser = await userService.createUser(req.body);
+//         res.status(201).json(newUser)
+//     } catch(error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// };
 
 export const getUserByID = async (req: Request, res: Response): Promise<void> => {
     try {
