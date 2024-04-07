@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne } from "typeorm";
+import { User } from "./User";
 
 @Entity()
 export class Doc extends BaseEntity {
@@ -8,8 +9,8 @@ export class Doc extends BaseEntity {
     @Column()
     title: string
 
-    @Column()
-    author: string
+    @ManyToOne(() => User, (owner) => owner.docs)
+    owner: User
 
     @Column()
     department: string

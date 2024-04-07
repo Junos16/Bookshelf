@@ -14,6 +14,7 @@ export const createBook = async (req: Request, res: Response): Promise<void> => 
 
 export const getBookByISBN = async (req: Request, res: Response): Promise<void> => {
     try {
+
         const bookISBN = parseInt(req.params.isbn);
         const book = await bookService.getBookByISBN(bookISBN);
         if(!book) res.status(404).json({ message: "Book not found" });

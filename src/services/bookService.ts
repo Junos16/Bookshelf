@@ -11,6 +11,7 @@ export class BookService {
     }
 
     async getBookByISBN(bookISBN: number): Promise<Book | null> {
+        //console.log(bookISBN);
         return await this.bookRepository.findOneBy({ isbn: bookISBN });
     }
 

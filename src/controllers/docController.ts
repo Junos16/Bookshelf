@@ -5,16 +5,17 @@ const docService = new DocService();
 
 export const createDoc = async (req: Request, res: Response): Promise<void> => {
     try {
+        req.body.owner = req.user.id;
         const newDoc = await docService.createDoc(req.body);
         res.status(201).json(newDoc);
     } catch(error) {
         res.status(500).json({ message: error.message });
-    }
+    }   
 };
 
 export const getDocByID = async (req: Request, res: Response): Promise<void> => {
     try {
-        const docID = parseInt(req.params.isbn);
+        const docID = parseInt(req.params.id);
         const doc = await docService.getDocByID(docID);
         if(!doc) res.status(404).json({ message: "Document not found" });
         else res.json(doc);
@@ -25,7 +26,7 @@ export const getDocByID = async (req: Request, res: Response): Promise<void> => 
 
 export const updateDoc = async (req: Request, res:Response): Promise<void> => {
     try {
-        const docID = parseInt(req.params.isbn);
+        const docID = parseInt(req.params.id);
         const updatedDoc = await docService.updateDoc(docID, req.body);
         if(!updatedDoc) res.status(404).json({ message: "Document not found" });
         else res.json(updatedDoc);
@@ -36,7 +37,7 @@ export const updateDoc = async (req: Request, res:Response): Promise<void> => {
 
 export const deleteDoc = async (req: Request, res: Response): Promise<void> => {
     try {
-        const docID = parseInt(req.params.isbn);
+        const docID = parseInt(req.params.id);
         await docService.deleteDoc(docID);
         res.status(204).end();
     } catch(error) {

@@ -1,4 +1,6 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UserRole } from "../../types/userRole";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Doc } from "./Doc";
 
 @Entity()
 export class User extends BaseEntity {
@@ -15,13 +17,16 @@ export class User extends BaseEntity {
     email: string
 
     @Column()
-    role: string
+    role: UserRole
 
     @Column()
     department: string
 
     @Column()
     year: number
+
+    @OneToMany(() => Doc, (doc) => doc.owner)
+    docs: Doc[]
 
     @Column()
     dateOfBirth: Date
@@ -31,4 +36,5 @@ export class User extends BaseEntity {
 
     @UpdateDateColumn()
     dateUpdated: Date
+
 }

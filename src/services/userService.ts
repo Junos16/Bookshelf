@@ -5,10 +5,10 @@ import { UpdateResult } from "typeorm";
 export class UserService {
     private userRepository = AppDataSource.getRepository(User);
 
-    async createUser(userData: Partial<User>): Promise<User> {
-        const newUser = this.userRepository.create(userData);
-        return await this.userRepository.save(newUser);
-    } 
+    // async createUser(userData: Partial<User>): Promise<User> {
+    //     const newUser = this.userRepository.create(userData);
+    //     return await this.userRepository.save(newUser);
+    // } 
 
     async getUserByID(userID: number): Promise<User | null> {
         return await this.userRepository.findOneBy({ id: userID });
