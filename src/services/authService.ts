@@ -6,10 +6,10 @@ import { User } from "../models/User";
 const JWT_SECRET = "test_secret";
 
 export class AuthService {
-    private UserRepository = AppDataSource.getRepository(User);
+    private userRepository = AppDataSource.getRepository(User);
     
     async loginUser(username: string, password: string): Promise<string | null> {
-        const user = await this.UserRepository.findOneBy({ username: username });
+        const user = await this.userRepository.findOneBy({ username: username });
         if(!user) return null;
 
         const isValidPassword = await bcrypt.compareSync(password, user.password);
@@ -19,15 +19,28 @@ export class AuthService {
         return token;
     };
 
+    // async signUpUser(userData: Partial<User>): Promise<User> {
+    //     const existingUser = await this.userRepository.findOne({
+    //         where: [{ email: userData.email }, { username: userData.username }]
+    //     });
+    //     if(existingUser) throw new Error("User with same email and username already exists");
+
+    //     const hashedPassword = await bcrypt.hash(userData.password!, 10);
+    //     userData.password = hashedPassword;
+    //     const newUser = this.userRepository.create({ ...userData });
+    //     return await newUser.save();
+    // }
+
     async signUpUser(userData: Partial<User>): Promise<User> {
-        const existingUser = await this.UserRepository.findOne({
+        const existingUser = await this.userRepository.findOne({
             where: [{ email: userData.email }, { username: userData.username }]
         });
         if(existingUser) throw new Error("User with same email and username already exists");
 
         const hashedPassword = await bcrypt.hash(userData.password!, 10);
         userData.password = hashedPassword;
-        const newUser = this.UserRepository.create({ ...userData });
-        return await newUser.save();
-    }
+        const newUser = this.userRepository.create(userData);
+        return await this.userRepository.save(newUser);
+    };
+
 }   

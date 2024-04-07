@@ -1,20 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne } from "typeorm";
+import { User } from "./User";
 
 @Entity()
 export class Doc extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ default: "cancert" })
+    @Column()
     title: string
 
-    @Column({ default: "cancer" })
-    author: string
+    @ManyToOne(() => User, (owner) => owner.docs)
+    owner: User
 
-    @Column({ default: "cencer" })
+    @Column()
     department: string
 
-    @Column({ default: "ccner" })
+    @Column()
     language: string
 
     @CreateDateColumn()

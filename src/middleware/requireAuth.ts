@@ -16,7 +16,6 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET) as Partial<User>;
-        console.log(decoded);
         const user  = await UserRepository.findOneBy({ id: decoded["id"] });
 
         if(!user) return res.status(401).json({ message: "Invalid user" });
@@ -27,12 +26,3 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
     }
 };
 
-export const requireRole = (role: string) => {
-    return (req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> | undefined | void => {
-        if(!req.user || req.user.role != role) {
-            return res.status(403).json({ message: "Forbidden" });
-        }
-        next();
-    }
-    
-};

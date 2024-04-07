@@ -36,7 +36,7 @@ export const updateUser = async (req: Request, res:Response): Promise<void> => {
 
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
     try {
-        const userID = parseInt(req.params.isbn);
+        const userID = parseInt(req.params.id);
         await userService.deleteUser(userID);
         res.status(204).end();
     } catch(error) {

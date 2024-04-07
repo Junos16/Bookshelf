@@ -5,7 +5,6 @@ const bookService = new BookService();
 
 export const createBook = async (req: Request, res: Response): Promise<void> => {
     try {
-        console.log(req.body);
         const newBook = await bookService.createBook(req.body);
         res.status(201).json(newBook);
     } catch(error) {
@@ -39,7 +38,6 @@ export const updateBook = async (req: Request, res:Response): Promise<void> => {
 export const deleteBook = async (req: Request, res: Response): Promise<void> => {
     try {
         const bookISBN = parseInt(req.params.isbn);
-        console.log(bookISBN);
         await bookService.deleteBook(bookISBN);
         res.status(204).end();
     } catch(error) {

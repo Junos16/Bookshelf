@@ -5,7 +5,7 @@ const docService = new DocService();
 
 export const createDoc = async (req: Request, res: Response): Promise<void> => {
     try {
-        console.log(req.body);
+        req.body.owner = req.user.id;
         const newDoc = await docService.createDoc(req.body);
         res.status(201).json(newDoc);
     } catch(error) {
