@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { AppDataSource } from "../config/data-source";
 import { User } from "../models/User";
+//import { UserRole } from "../../types/userRole";
 
 const JWT_SECRET = "test_secret";
 
@@ -36,7 +37,7 @@ export class AuthService {
             where: [{ email: userData.email }, { username: userData.username }]
         });
         if(existingUser) throw new Error("User with same email and username already exists");
-
+        //if(userData.role == UserRole.ADMIN) throw new Error("")
         const hashedPassword = await bcrypt.hash(userData.password!, 10);
         userData.password = hashedPassword;
         const newUser = this.userRepository.create(userData);

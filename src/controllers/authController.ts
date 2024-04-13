@@ -4,7 +4,7 @@ import { AuthService } from "../services/authService";
 const authService = new AuthService();
 
 export const login = async (req: Request, res: Response): Promise<void> => {
-    const { username, password } = req.body;
+    const [username, password] = req.body;
     const token = await authService.loginUser(username, password);
 
     if(!token) res.status(401).json({ message: 'Invalid username or password' });
