@@ -14,6 +14,45 @@ export class BookService {
         //console.log(bookISBN);
         return await this.bookRepository.findOneBy({ isbn: bookISBN });
     }
+    
+    async getBooks(
+        filterBy?: string, 
+        sortBy?: string, 
+        sortOrder?: "ASC" | "DESC", 
+        limit?: number, 
+        offset?: number
+    ): Promise<Book[] | null> {
+        const queryBuilder = this.bookRepository.createQueryBuilder().select("Book");
+
+        if (filterBy) {
+            queryBuilder.where(filterBy);
+        }
+        
+        if (sortBy !== undefined && sortOrder) {
+            queryBuilder.orderBy(sortBy, sortOrder);
+        }
+
+        if (limit !== undefined && offset !== undefined) {
+            queryBuilder.skip(offset).take(limit);
+        }
+
+        return await queryBuilder.getMany();
+    }
+
+    // async getBooks(
+    //     filterBy?: string, 
+    //     sortBy?: string, 
+    //     sortOrder?: "ASC" | "DESC", 
+    //     limit?: number, 
+    //     offset?: number
+    // ): Promise<Book[] | null> {
+    //     const queryBuilder = this.bookRepository.createQueryBuilder("Book");
+
+    //     if(filterBy) queryBuilder.where(filterBy);
+    //     if(sortBy && sortOrder) queryBuilder.orderBy(sortBy, sortOrder);
+    //     if(limit && offset) queryBuilder.skip(offset).take(limit);
+    //     return await queryBuilder.getMany();
+    // }
 
     async updateBook(bookISBN: number, newData: Partial<Book>): Promise<Book | null> {
         const updatedBook: UpdateResult = await this.bookRepository.update(bookISBN, newData);
