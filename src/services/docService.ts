@@ -13,6 +13,21 @@ export class DocService {
     async getDocByID(docID: number): Promise<Doc | null> {
         return await this.docRepository.findOneBy({ id: docID });
     }
+    
+    async getDocs(
+        filterBy?: string, 
+        sortBy?: string, 
+        sortOrder?: "ASC" | "DESC", 
+        limit?: number, 
+        offset?: number
+    ): Promise<Doc[] | null> {
+        const queryBuilder = this.docRepository.createQueryBuilder("Doc");
+
+        if(filterBy) queryBuilder.where(filterBy);
+        if(sortBy !== undefined && sortOrder) queryBuilder.orderBy(sortBy, sortOrder);
+        if(limit !== undefined && offset !== undefined) queryBuilder.skip(offset).take(limit);
+        return await queryBuilder.getMany();
+    }
 
     async updateDoc(docID: number, newData: Partial<Doc>): Promise<Doc | null> {
         const updatedDoc: UpdateResult = await this.docRepository.update(docID, newData);
