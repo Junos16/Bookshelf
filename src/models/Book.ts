@@ -1,4 +1,5 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, PrimaryColumn } from "typeorm";
+import { Department } from "types/department";
 
 @Entity()
 export class Book extends BaseEntity {
@@ -18,7 +19,7 @@ export class Book extends BaseEntity {
     language: string
 
     @Column()
-    department: string
+    department: Department
 
     @Column()
     dateReleased: Date

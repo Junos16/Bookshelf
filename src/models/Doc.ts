@@ -1,5 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne } from "typeorm";
 import { User } from "./User";
+import { Department } from "../../types/department";
+import { Year } from "../../types/year";
 
 @Entity()
 export class Doc extends BaseEntity {
@@ -13,7 +15,10 @@ export class Doc extends BaseEntity {
     owner: User
 
     @Column()
-    department: string
+    department: Department
+
+    @Column()
+    year: Year
 
     @Column()
     language: string
