@@ -40,14 +40,15 @@ export class BookService {
     // }
 
     async getBooks(
-        filterBy?: string, 
+        filterByKey?: string, 
+        filterByValue?: number | string,
         sortBy?: string, 
         sortOrder?: "ASC" | "DESC", 
         limit?: number, 
         offset?: number
     ): Promise<Book[] | null> {
         const queryBuilder = this.bookRepository.createQueryBuilder("Book");
-
+        const filterBy = filterByKey + " = " + filterByValue?.toString();
         if(filterBy) queryBuilder.where(filterBy);
         if(sortBy !== undefined && sortOrder) queryBuilder.orderBy(sortBy, sortOrder);
         if(limit !== undefined && offset !== undefined) queryBuilder.skip(offset).take(limit);

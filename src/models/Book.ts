@@ -1,5 +1,5 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, PrimaryColumn } from "typeorm";
-import { Department } from "types/department";
+import { Department } from "../../types/department";
 
 @Entity()
 export class Book extends BaseEntity {
