@@ -26,10 +26,10 @@ export const getDocByID = async (req: Request, res: Response): Promise<void> => 
 
 export const getDocs = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { filterBy, sortBy, sortOrder, limit, offset } = req.body;
+        const { filterByKey, filterByValue, sortBy, sortOrder, limit, offset } = req.body;
         //console.log(sortBy);
         //console.log(sortOrder);
-        const docs = await docService.getDocs(filterBy, sortBy, sortOrder, limit, offset);
+        const docs = await docService.getDocs(filterByKey, filterByValue, sortBy, sortOrder, limit, offset);
         if(!docs) res.status(404).json({ message: "No documents found" });
         else res.json(docs);        
     } catch(error) {

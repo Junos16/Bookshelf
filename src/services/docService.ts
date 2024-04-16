@@ -15,14 +15,15 @@ export class DocService {
     }
     
     async getDocs(
-        filterBy?: string, 
+        filterByKey?: string, 
+        filterByValue?: string | number,
         sortBy?: string, 
         sortOrder?: "ASC" | "DESC", 
         limit?: number, 
         offset?: number
     ): Promise<Doc[] | null> {
         const queryBuilder = this.docRepository.createQueryBuilder("Doc");
-
+        const filterBy = filterByKey + " = " + filterByValue?.toString();
         if(filterBy) queryBuilder.where(filterBy);
         if(sortBy !== undefined && sortOrder) queryBuilder.orderBy(sortBy, sortOrder);
         if(limit !== undefined && offset !== undefined) queryBuilder.skip(offset).take(limit);
