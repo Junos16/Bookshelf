@@ -29,7 +29,15 @@ export const getDocs = async (req: Request, res: Response): Promise<void> => {
         const { filterByKey, filterByValue, sortBy, sortOrder, limit, offset } = req.body;
         //console.log(sortBy);
         //console.log(sortOrder);
-        const docs = await docService.getDocs(filterByKey, filterByValue, sortBy, sortOrder, limit, offset);
+        const docs = await docService.getDocs(
+            filterByKey as string, 
+            filterByValue as number | string, 
+            sortBy as string, 
+            sortOrder as "ASC" | "DESC", 
+            parseInt(limit as string), 
+            parseInt(offset as string)
+        );
+        
         if(!docs) res.status(404).json({ message: "No documents found" });
         else res.json(docs);        
     } catch(error) {

@@ -25,10 +25,18 @@ export const getBookByISBN = async (req: Request, res: Response): Promise<void> 
 
 export const getBooks = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { filterByKey, filterByValue, sortBy, sortOrder, limit, offset } = req.body;
-        //console.log(sortBy);
-        //console.log(sortOrder);
-        const books = await bookService.getBooks(filterByKey, filterByValue, sortBy, sortOrder, limit, offset);
+        const { filterByKey, filterByValue, sortOrder, sortBy, limit, offset } = req.query;
+        // console.log(req.query);
+
+        const books = await bookService.getBooks(
+            filterByKey as string, 
+            filterByValue as number | string, 
+            sortBy as string, 
+            sortOrder as "ASC" | "DESC", 
+            parseInt(limit as string), 
+            parseInt(offset as string)
+        );
+
         if(!books) res.status(404).json({ message: "No books found" });
         else res.json(books);        
     } catch(error) {

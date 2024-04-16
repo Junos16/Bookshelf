@@ -48,9 +48,12 @@ export class BookService {
         offset?: number
     ): Promise<Book[] | null> {
         const queryBuilder = this.bookRepository.createQueryBuilder("Book");
-        const filterBy = filterByKey + " = " + filterByValue?.toString();
-        if(filterBy) queryBuilder.where(filterBy);
+        if(filterByKey !== undefined && filterByValue !== undefined) {
+            const filterBy = filterByKey + " = " + filterByValue.toString();
+            queryBuilder.where(filterBy);
+        }
         if(sortBy !== undefined && sortOrder) queryBuilder.orderBy(sortBy, sortOrder);
+        console.log(offset);
         if(limit !== undefined && offset !== undefined) queryBuilder.skip(offset).take(limit);
         return await queryBuilder.getMany();
     }

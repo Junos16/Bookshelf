@@ -23,8 +23,10 @@ export class DocService {
         offset?: number
     ): Promise<Doc[] | null> {
         const queryBuilder = this.docRepository.createQueryBuilder("Doc");
-        const filterBy = filterByKey + " = " + filterByValue?.toString();
-        if(filterBy) queryBuilder.where(filterBy);
+        if(filterByKey !== undefined && filterByValue !== undefined) {
+            const filterBy = filterByKey + " = " + filterByValue.toString();
+            queryBuilder.where(filterBy);
+        }
         if(sortBy !== undefined && sortOrder) queryBuilder.orderBy(sortBy, sortOrder);
         if(limit !== undefined && offset !== undefined) queryBuilder.skip(offset).take(limit);
         return await queryBuilder.getMany();
