@@ -24,8 +24,8 @@ export class DocService {
     ): Promise<Doc[] | null> {
         const queryBuilder = this.docRepository.createQueryBuilder("Doc");
         if(filterByKey !== undefined && filterByValue !== undefined) {
-            const filterBy = filterByKey + " = " + filterByValue.toString();
-            queryBuilder.where(filterBy);
+            const filterBy = filterByKey + " = :value";
+            queryBuilder.where(filterBy, { value: filterByValue });
         }
         if(sortBy !== undefined && sortOrder) queryBuilder.orderBy(sortBy, sortOrder);
         if(limit !== undefined && offset !== undefined) queryBuilder.skip(offset).take(limit);
