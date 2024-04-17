@@ -49,9 +49,7 @@ export class BookService {
     ): Promise<Book[] | null> {
         const queryBuilder = this.bookRepository.createQueryBuilder("Book");
         if(filterByKey !== "" && filterByValue !== "" && filterByKey !== undefined && filterByValue !== undefined) {
-            // const filterBy = filterByKey + " = " + filterByValue.toString();
             const filterBy = filterByKey + " = :value";
-            // queryBuilder.where(filterBy);
             queryBuilder.where(filterBy , { value: filterByValue });
         }
         if(sortBy !== undefined && sortOrder) queryBuilder.orderBy(sortBy, sortOrder);

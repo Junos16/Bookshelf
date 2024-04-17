@@ -26,7 +26,6 @@ export const getBookByISBN = async (req: Request, res: Response): Promise<void> 
 export const getBooks = async (req: Request, res: Response): Promise<void> => {
     try {
         const { filterByKey, filterByValue, sortOrder, sortBy, limit, offset } = req.query;
-        // console.log(req.query);
 
         const books = await bookService.getBooks(
             filterByKey as string, 

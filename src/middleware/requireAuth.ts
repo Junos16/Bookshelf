@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { AppDataSource } from "../config/data-source";
 import { User } from "../models/User";
 
-const JWT_SECRET = "test_secret";
+const JWT_SECRET = "test_secret"; // env var
 const UserRepository = AppDataSource.getRepository(User);
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined | void> => {
