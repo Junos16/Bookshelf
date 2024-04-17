@@ -1,13 +1,13 @@
 import express from "express";
 import multer from "multer";
-import { createDoc, deleteDoc, getDocByID, getDocs, updateDoc } from "../controllers/docController";
+import { createDoc, deleteDoc, downloadDoc, getDocByID, getDocs, updateDoc } from "../controllers/docController";
 import { requireAuth } from "../middleware/requireAuth";
 import { requireRole } from "../middleware/requireRole";
 import { UserRole } from "../../types/userRole";
 import { requireOwner } from "../middleware/requireOwner";
 
 const router = express.Router();
-const upload = multer({ dest: "docs/" });
+const upload = multer({ dest: "../../docs" });
 
 router.post(
     "/", 
@@ -18,6 +18,7 @@ router.post(
 
 router.get("/:id", requireAuth, getDocByID);
 router.get("/", requireAuth, getDocs);
+router.get("/download/:id", requireAuth, downloadDoc);
 
 router.put(
     "/:id", 

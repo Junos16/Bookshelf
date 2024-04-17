@@ -1,12 +1,12 @@
 import express from "express";
 import multer from "multer";
-import { createBook, deleteBook, getBookByISBN, getBooks, updateBook } from "../controllers/bookController";
+import { createBook, deleteBook, downloadBook, getBookByISBN, getBooks, updateBook } from "../controllers/bookController";
 import { requireAuth } from "../middleware/requireAuth";
 import { requireRole } from "../middleware/requireRole";
 import { UserRole } from "../../types/userRole";
 
 const bookRouter = express.Router();
-const upload = multer({ dest: "books/" });
+const upload = multer({ dest: "../../books" });
 
 bookRouter.post(
     "/", 
@@ -18,6 +18,7 @@ bookRouter.post(
 
 bookRouter.get("/", getBooks);
 bookRouter.get("/:isbn", getBookByISBN);
+bookRouter.get("/download/:isbn", downloadBook);
 
 bookRouter.put(
     "/:isbn", 

@@ -49,8 +49,22 @@ export const getBooks = async (req: Request, res: Response): Promise<void> => {
         //console.log(books);
 
         if(!books) res.status(404).json({ message: "No books found" });
-        else res.json(books);        
+        else res.status(200).json(books);        
     } catch(error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export const downloadBook = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const bookISBN = parseInt(req.params.isbn);
+        const book = await bookService.getBookByISBN(bookISBN);
+        const path = book?.filepath; 
+        const name = book?.filename;
+        if (path !== undefined && name !== undefined) {
+            res.status(200).download(path, name);
+        } else res.status(404).json({ message: "No file found" });
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
@@ -68,7 +82,7 @@ export const updateBook = async (req: Request, res:Response): Promise<void> => {
 
         const updatedBook = await bookService.updateBook(bookISBN, bookDataWithFile);
         if(!updatedBook) res.status(404).json({ message: "Book not found" });
-        else res.json(updatedBook);
+        else res.status(201).json(updatedBook);
     } catch(error) {
         res.status(500).json({ message: error.message });
     }
