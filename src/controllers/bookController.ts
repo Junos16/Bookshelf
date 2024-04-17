@@ -14,7 +14,6 @@ export const createBook = async (req: Request, res: Response): Promise<void> => 
 
 export const getBookByISBN = async (req: Request, res: Response): Promise<void> => {
     try {
-
         const bookISBN = parseInt(req.params.isbn);
         const book = await bookService.getBookByISBN(bookISBN);
         if(!book) res.status(404).json({ message: "Book not found" });
@@ -23,6 +22,26 @@ export const getBookByISBN = async (req: Request, res: Response): Promise<void> 
         res.status(500).json({ message: error.message });
     }
 };
+
+export const getBooks = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { filterByKey, filterByValue, sortOrder, sortBy, limit, offset } = req.query;
+
+        const books = await bookService.getBooks(
+            filterByKey as string, 
+            filterByValue as number | string, 
+            sortBy as string, 
+            sortOrder as "ASC" | "DESC", 
+            parseInt(limit as string), 
+            parseInt(offset as string)
+        );
+
+        if(!books) res.status(404).json({ message: "No books found" });
+        else res.json(books);        
+    } catch(error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
 export const updateBook = async (req: Request, res:Response): Promise<void> => {
     try {
