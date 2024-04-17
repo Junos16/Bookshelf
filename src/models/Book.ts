@@ -27,6 +27,12 @@ export class Book extends BaseEntity {
     @Column()
     edition: number
 
+    @Column()
+    filename: string;
+
+    @Column()
+    filepath: string;
+
     @CreateDateColumn()
     dateAdded: Date
 

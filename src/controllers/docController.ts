@@ -6,7 +6,15 @@ const docService = new DocService();
 export const createDoc = async (req: Request, res: Response): Promise<void> => {
     try {
         req.body.owner = req.user.id;
-        const newDoc = await docService.createDoc(req.body);
+        const name = req.file?.filename;
+        const path = req.file?.path;
+        const docDatawithFile = {
+            ...req.body,
+            filename: name,
+            filepath: path
+        };
+
+        const newDoc = await docService.createDoc(docDatawithFile);
         res.status(201).json(newDoc);
     } catch(error) {
         res.status(500).json({ message: error.message });
@@ -48,7 +56,15 @@ export const getDocs = async (req: Request, res: Response): Promise<void> => {
 export const updateDoc = async (req: Request, res:Response): Promise<void> => {
     try {
         const docID = parseInt(req.params.id);
-        const updatedDoc = await docService.updateDoc(docID, req.body);
+        const name = req.file?.filename;
+        const path = req.file?.path;
+        const docDatawithFile = {
+            ...req.body,
+            filename: name,
+            filepath: path
+        };
+
+        const updatedDoc = await docService.updateDoc(docID, docDatawithFile        );
         if(!updatedDoc) res.status(404).json({ message: "Document not found" });
         else res.json(updatedDoc);
     } catch(error) {

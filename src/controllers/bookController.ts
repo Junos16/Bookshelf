@@ -5,7 +5,16 @@ const bookService = new BookService();
 
 export const createBook = async (req: Request, res: Response): Promise<void> => {
     try {
-        const newBook = await bookService.createBook(req.body);
+        // const { filename, path } = req.file ? ;
+        const name = req.file?.filename;
+        const path = req.file?.path;
+        const bookDataWithFile = {
+            ...req.body,
+            filename: name,
+            filepath: path
+        };
+
+        const newBook = await bookService.createBook(bookDataWithFile);
         res.status(201).json(newBook);
     } catch(error) {
         res.status(500).json({ message: error.message });
@@ -26,6 +35,7 @@ export const getBookByISBN = async (req: Request, res: Response): Promise<void> 
 export const getBooks = async (req: Request, res: Response): Promise<void> => {
     try {
         const { filterByKey, filterByValue, sortOrder, sortBy, limit, offset } = req.query;
+            //console.log(offset);
 
         const books = await bookService.getBooks(
             filterByKey as string, 
@@ -35,6 +45,8 @@ export const getBooks = async (req: Request, res: Response): Promise<void> => {
             parseInt(limit as string), 
             parseInt(offset as string)
         );
+
+        //console.log(books);
 
         if(!books) res.status(404).json({ message: "No books found" });
         else res.json(books);        
@@ -46,7 +58,15 @@ export const getBooks = async (req: Request, res: Response): Promise<void> => {
 export const updateBook = async (req: Request, res:Response): Promise<void> => {
     try {
         const bookISBN = parseInt(req.params.isbn);
-        const updatedBook = await bookService.updateBook(bookISBN, req.body);
+        const name = req.file?.filename;
+        const path = req.file?.path;
+        const bookDataWithFile = {
+            ...req.body,
+            filename: name,
+            filepath: path
+        };
+
+        const updatedBook = await bookService.updateBook(bookISBN, bookDataWithFile);
         if(!updatedBook) res.status(404).json({ message: "Book not found" });
         else res.json(updatedBook);
     } catch(error) {

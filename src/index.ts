@@ -10,7 +10,7 @@ import { corsOptions } from "./config/corsOptions";
 
 const main = async () => {
     const app: Express = express();
-    app.use(express.json(), cors(corsOptions));
+    app.use(express.json(), cors(corsOptions), express.urlencoded({ extended: true }));
     AppDataSource.initialize();
 
     app.use("/book", bookRoutes);
