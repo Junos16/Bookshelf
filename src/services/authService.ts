@@ -16,8 +16,11 @@ export class AuthService {
         if(!isValidPassword) return null;
 
         const expiresIn = 3600; // set as env var
+        const userId = user.id;
+        const userRole = user.role;
+        
         const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn });
-        return { token, expiresIn };
+        return { token, expiresIn, userId, userRole };
     };
     
     async signUpUser(userData: Partial<User>): Promise<User> {
