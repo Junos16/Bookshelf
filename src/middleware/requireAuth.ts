@@ -7,8 +7,8 @@ const JWT_SECRET = "test_secret"; // env var
 const UserRepository = AppDataSource.getRepository(User);
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined | void> => {
-    // const token = req.headers["authorization"];
-    const token = req.cookies["token"];
+    const token = req.headers["authorization"];
+    // const token = req.cookies["token"];
     console.log(token)
 
     if(!token) {
