@@ -72,15 +72,16 @@ export const downloadBook = async (req: Request, res: Response): Promise<void> =
 export const updateBook = async (req: Request, res:Response): Promise<void> => {
     try {
         const bookISBN = parseInt(req.params.isbn);
-        const name = req.file?.filename;
-        const path = req.file?.path;
-        const bookDataWithFile = {
-            ...req.body,
-            filename: name,
-            filepath: path
-        };
+        const bookData = { ...req.body };
+        
+        if (req.file) {
+            const name = req.file?.filename;
+            const path = req.file?.path;
+            bookData.filename = name;
+            bookData.filepath = path;
+        }
 
-        const updatedBook = await bookService.updateBook(bookISBN, bookDataWithFile);
+        const updatedBook = await bookService.updateBook(bookISBN, bookData);
         if(!updatedBook) res.status(404).json({ message: "Book not found" });
         else res.status(201).json(updatedBook);
     } catch(error) {

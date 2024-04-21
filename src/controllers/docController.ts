@@ -70,15 +70,16 @@ export const downloadDoc = async (req: Request, res: Response): Promise<void> =>
 export const updateDoc = async (req: Request, res:Response): Promise<void> => {
     try {
         const docID = parseInt(req.params.id);
-        const name = req.file?.filename;
-        const path = req.file?.path;
-        const docDatawithFile = {
-            ...req.body,
-            filename: name,
-            filepath: path
-        };
-
-        const updatedDoc = await docService.updateDoc(docID, docDatawithFile        );
+        const docData = { ...req.body };
+        
+        if (req.file) {
+            const name = req.file?.filename;
+            const path = req.file?.path;
+            docData.filename = name;
+            docData.filepath = path;
+        }
+        
+        const updatedDoc = await docService.updateDoc(docID, docData);
         if(!updatedDoc) res.status(404).json({ message: "Document not found" });
         else res.status(201).json(updatedDoc);
     } catch(error) {
