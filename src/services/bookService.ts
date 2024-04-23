@@ -35,6 +35,7 @@ export class BookService {
     }
 
     async updateBook(bookISBN: number, newData: Partial<Book>): Promise<Book | null> {
+        // const pastBook = await this.bookRepository.findOneBy({ isbn: bookISBN });
         const updatedBook: UpdateResult = await this.bookRepository.update(bookISBN, newData);
         if(updatedBook.affected === 0) return null;
         return await this.bookRepository.findOneBy({ isbn: bookISBN });

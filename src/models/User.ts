@@ -27,7 +27,7 @@ export class User extends BaseEntity {
     @Column()
     year: Year
 
-    @OneToMany(() => Doc, (doc) => doc.owner)
+    @OneToMany(() => Doc, (doc) => doc.owner, { eager: true })
     docs: Doc[]
 
     @CreateDateColumn()

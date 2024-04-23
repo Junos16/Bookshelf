@@ -23,7 +23,7 @@ export class DocService {
         offset?: number
     ): Promise<Doc[] | null> {
         const queryBuilder = this.docRepository.createQueryBuilder("Doc");
-        if(filterByKey !== undefined && filterByValue !== undefined) {
+        if(filterByKey !== "" && filterByValue !== "" && filterByKey !== undefined && filterByValue !== undefined) {
             const filterBy = filterByKey + " = :value";
             queryBuilder.where(filterBy, { value: filterByValue });
         }

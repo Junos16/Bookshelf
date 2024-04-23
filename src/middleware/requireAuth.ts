@@ -9,7 +9,7 @@ const UserRepository = AppDataSource.getRepository(User);
 export const requireAuth = async (req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined | void> => {
     const token = req.headers["authorization"];
     // const token = req.cookies["token"];
-    console.log(token)
+    // console.log(token)
 
     if(!token) {
         return res.status(401).json({ message: "Authorization token missing" });
@@ -18,7 +18,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
     try {
         const decoded = jwt.verify(token, JWT_SECRET) as Partial<User>;
         const user  = await UserRepository.findOneBy({ id: decoded["id"] });
-
+        // console.log(user);
         if(!user) return res.status(401).json({ message: "Invalid user" });
         req.user = user;
         next();

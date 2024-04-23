@@ -5,11 +5,12 @@ const docService = new DocService();
 
 export const createDoc = async (req: Request, res: Response): Promise<void> => {
     try {
-        req.body.owner = req.user.id;
+        // const owner = req.user.id;
         const name = req.file?.filename;
         const path = req.file?.path;
         const docDatawithFile = {
             ...req.body,
+            owner: req.user.id,
             filename: name,
             filepath: path
         };
@@ -34,9 +35,10 @@ export const getDocByID = async (req: Request, res: Response): Promise<void> => 
 
 export const getDocs = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { filterByKey, filterByValue, sortBy, sortOrder, limit, offset } = req.body;
+        const { filterByKey, filterByValue, sortBy, sortOrder, limit, offset } = req.query;
         //console.log(sortBy);
         //console.log(sortOrder);
+        // console.log(offset);
         const docs = await docService.getDocs(
             filterByKey as string, 
             filterByValue as number | string, 
@@ -70,6 +72,7 @@ export const downloadDoc = async (req: Request, res: Response): Promise<void> =>
 export const updateDoc = async (req: Request, res:Response): Promise<void> => {
     try {
         const docID = parseInt(req.params.id);
+        console.log(docID);
         const docData = { ...req.body };
         
         if (req.file) {
