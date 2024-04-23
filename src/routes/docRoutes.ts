@@ -1,9 +1,9 @@
 import express from "express";
 import multer from "multer";
-import { createDoc, deleteDoc, downloadDoc, getDocByID, getDocs, updateDoc } from "../controllers/docController";
+import { createDoc, deleteDoc, downloadDoc, getDocById, getDocs, updateDoc } from "../controllers/docController";
 import { requireAuth } from "../middleware/requireAuth";
-// import { requireRole } from "../middleware/requireRole";
-// import { UserRole } from "../../types/userRole";
+import { requireRole } from "../middleware/requireRole";
+import { UserRole } from "../../types/userRole";
 import { requireOwner } from "../middleware/requireOwner";
 import { docStorage } from "../config/multerConfig";
 
@@ -17,7 +17,7 @@ router.post(
     createDoc
 );
 
-router.get("/:id", requireAuth, getDocByID);
+router.get("/:id", requireAuth, getDocById);
 router.get("/", requireAuth, getDocs);
 router.get("/download/:id", requireAuth, downloadDoc);
 
@@ -29,13 +29,13 @@ router.put(
     updateDoc
 );
 
-// router.put(
-//     "/:id", 
-//     requireAuth, 
-//     requireRole(UserRole.ADMIN), 
-//     upload.single("pdf"),
-//     updateDoc
-// );
+router.put(
+    "/:id", 
+    requireAuth, 
+    requireRole(UserRole.ADMIN), 
+    upload.single("pdf"),
+    updateDoc
+);
 
 router.delete(
     "/:id", 
@@ -44,11 +44,11 @@ router.delete(
     deleteDoc
 );
 
-// router.delete(
-//     ":/id", 
-//     requireAuth, 
-//     requireRole(UserRole.ADMIN), 
-//     deleteDoc
-// );
+router.delete(
+    ":/id", 
+    requireAuth, 
+    requireRole(UserRole.ADMIN), 
+    deleteDoc
+);
 
 export default router;

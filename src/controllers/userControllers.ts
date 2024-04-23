@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/userService";
+import { DocService } from "../services/docService";
 
 const userService = new UserService();
+const docService = new DocService();
 
 // export const createUser = async (req: Request, res: Response): Promise<void> => {
 //     try {
@@ -12,12 +14,10 @@ const userService = new UserService();
 //     }
 // };
 
-export const getUserByID = async (req: Request, res: Response): Promise<void> => {
+export const getUserById = async (req: Request, res: Response): Promise<void> => {
     try {
-        //console.log(req.params);
-        const userID = parseInt(req.params.id);
-        //console.log(userID);
-        const user = await userService.getUserByID(userID);
+        const userId = parseInt(req.params.id);
+        const user = await userService.getUserById(userId);
         if(!user) res.status(404).json({ message: "User not found" });
         else res.json(user);
     } catch(error) {
@@ -27,8 +27,8 @@ export const getUserByID = async (req: Request, res: Response): Promise<void> =>
 
 export const updateUser = async (req: Request, res:Response): Promise<void> => {
     try {
-        const userID = parseInt(req.params.id);
-        const updatedUser = await userService.updateUser(userID, req.body);
+        const userId = parseInt(req.params.id);
+        const updatedUser = await userService.updateUser(userId, req.body);
         if(!updatedUser) res.status(404).json({ message: "User not found" });
         else res.json(updatedUser);
     } catch(error) {
@@ -38,8 +38,11 @@ export const updateUser = async (req: Request, res:Response): Promise<void> => {
 
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
     try {
-        const userID = parseInt(req.params.id);
-        await userService.deleteUser(userID);
+        const userId = parseInt(req.params.id);
+        const user = await userService.getUserById(userId);
+        const docList = user?.docs;
+        docList?.forEach(async (doc) => await docService.deleteDoc(doc.id));
+        await userService.deleteUser(userId);
         res.status(204).end();
     } catch(error) {
         res.status(500).json({ message: error.message });

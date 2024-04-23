@@ -5,7 +5,6 @@ const bookService = new BookService();
 
 export const createBook = async (req: Request, res: Response): Promise<void> => {
     try {
-        // const { filename, path } = req.file ? ;
         const name = req.file?.filename;
         const path = req.file?.path;
         const bookDataWithFile = {
@@ -35,7 +34,6 @@ export const getBookByISBN = async (req: Request, res: Response): Promise<void> 
 export const getBooks = async (req: Request, res: Response): Promise<void> => {
     try {
         const { filterByKey, filterByValue, sortOrder, sortBy, limit, offset } = req.query;
-            //console.log(offset);
 
         const books = await bookService.getBooks(
             filterByKey as string, 
@@ -45,8 +43,6 @@ export const getBooks = async (req: Request, res: Response): Promise<void> => {
             parseInt(limit as string), 
             parseInt(offset as string)
         );
-
-        //console.log(books);
 
         if(!books) res.status(404).json({ message: "No books found" });
         else res.status(200).json(books);        

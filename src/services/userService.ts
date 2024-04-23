@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { AppDataSource } from "../config/data-source";
 import { User } from "../models/User";
 
@@ -8,14 +9,14 @@ export class UserService {
     //     return await this.userRepository.save(newUser);
     // } 
 
-    async getUserByID(userID: number): Promise<Partial<User> | null> {
+    async getUserById(userId: number): Promise<Partial<User> | null> {
         // return await this.userRepository
         //     .createQueryBuilder("user")
         //     .select(Object.getOwnPropertyNames(this.tempUser).filter(element => element !== "password"))
         //     .where("user.id = :userID", { userID })
         //     .getOne();
         
-        const user = await this.userRepository.findOneBy({ id: userID });
+        const user = await this.userRepository.findOneBy({ id: userId });
         // console.log(user?.docs);
         if (user) {
             const { password, ...userWithoutPassword } = user;
@@ -23,14 +24,19 @@ export class UserService {
         } else return user;
     }
 
-    async updateUser(userID: number, newData: Partial<User>): Promise<Partial<User> | null> {
+    async updateUser(userId: number, newData: Partial<User>): Promise<Partial<User> | null> {
         const queryBuilder = await this.userRepository.createQueryBuilder("User");
+        
+        if (newData.password) {
+            const newPassword = await bcrypt.hash(newData.password, 10);
+            newData.password = newPassword;
+        }
         queryBuilder
             .update(User)
             .set(newData)
-            .where("id = :id", { id: userID })
+            .where("id = :id", { id: userId })
             .execute()
-        return await this.userRepository.findOneBy({ id: userID });
+        return await this.userRepository.findOneBy({ id: userId });
 
         
         // const updatedUser = await this.userRepository.save({
@@ -57,7 +63,7 @@ export class UserService {
         // } else return user;
     }
 
-    async deleteUser(userID: number): Promise<void> {
-        await this.userRepository.delete(userID);
+    async deleteUser(userId: number): Promise<void> {
+        await this.userRepository.delete(userId);
     }
 }
