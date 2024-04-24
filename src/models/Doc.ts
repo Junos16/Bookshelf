@@ -23,6 +23,12 @@ export class Doc extends BaseEntity {
     @Column()
     language: string
 
+    @Column()
+    filename: string;
+
+    @Column()
+    filepath: string;
+
     @CreateDateColumn()
     dateAdded: Date
 

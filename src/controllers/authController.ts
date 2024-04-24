@@ -9,7 +9,15 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         const tokenObj = await authService.loginUser(username, password);
 
         if(!tokenObj) res.status(401).json({ message: 'Invalid username or password' });
-        res.json(tokenObj);
+        else {
+            // res.cookie("token", tokenObj.token, {
+            //     maxAge: (tokenObj.expiresIn as number) * 1000,
+            //     httpOnly: false
+            // });
+            res.status(200).json(tokenObj);            
+            // console.log(res.header.toString());
+            // res.status(200).json({ message: "Login Successful", userId: tokenObj.userId, userRole: tokenObj.userRole });
+        }
     } catch(error) {
         res.status(400).json({ message: error.message });
     }

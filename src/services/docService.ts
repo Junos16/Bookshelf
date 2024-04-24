@@ -10,8 +10,8 @@ export class DocService {
         return await this.docRepository.save(newDoc);
     }
 
-    async getDocByID(docID: number): Promise<Doc | null> {
-        return await this.docRepository.findOneBy({ id: docID });
+    async getDocById(docId: number): Promise<Doc | null> {
+        return await this.docRepository.findOneBy({ id: docId });
     }
     
     async getDocs(
@@ -23,7 +23,7 @@ export class DocService {
         offset?: number
     ): Promise<Doc[] | null> {
         const queryBuilder = this.docRepository.createQueryBuilder("Doc");
-        if(filterByKey !== undefined && filterByValue !== undefined) {
+        if(filterByKey !== "" && filterByValue !== "" && filterByKey !== undefined && filterByValue !== undefined) {
             const filterBy = filterByKey + " = :value";
             queryBuilder.where(filterBy, { value: filterByValue });
         }
@@ -32,13 +32,13 @@ export class DocService {
         return await queryBuilder.getMany();
     }
 
-    async updateDoc(docID: number, newData: Partial<Doc>): Promise<Doc | null> {
-        const updatedDoc: UpdateResult = await this.docRepository.update(docID, newData);
+    async updateDoc(docId: number, newData: Partial<Doc>): Promise<Doc | null> {
+        const updatedDoc: UpdateResult = await this.docRepository.update(docId, newData);
         if(updatedDoc.affected === 0) return null;
-        return await this.docRepository.findOneBy({ id: docID });
+        return await this.docRepository.findOneBy({ id: docId });
     }
 
-    async deleteDoc(docID: number): Promise<void> {
-        await this.docRepository.delete(docID);
+    async deleteDoc(docId: number): Promise<void> {
+        await this.docRepository.delete(docId);
     }
 }

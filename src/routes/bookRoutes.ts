@@ -1,23 +1,39 @@
 import express from "express";
-//import multer from "multer";
-import { createBook, deleteBook, getBookByISBN, getBooks, updateBook } from "../controllers/bookController";
+import multer from "multer";
+import { createBook, deleteBook, downloadBook, getBookByISBN, getBooks, updateBook } from "../controllers/bookController";
 import { requireAuth } from "../middleware/requireAuth";
 import { requireRole } from "../middleware/requireRole";
 import { UserRole } from "../../types/userRole";
+import { bookStorage } from "../config/multerConfig";
 
 const bookRouter = express.Router();
-// const upload = multer({ dest: "/books" });
+const upload = multer({ storage: bookStorage });
 
-bookRouter.post("/", 
+bookRouter.post(
+    "/", 
     requireAuth, 
     requireRole(UserRole.ADMIN),
-    // upload.single("pdf"),
+    upload.single("file"),
     createBook
 );
 
 bookRouter.get("/", getBooks);
 bookRouter.get("/:isbn", getBookByISBN);
-bookRouter.put("/:isbn", requireAuth, requireRole(UserRole.ADMIN), updateBook);
-bookRouter.delete("/:isbn", requireAuth, requireRole(UserRole.ADMIN), deleteBook);
+bookRouter.get("/download/:isbn", downloadBook);
+
+bookRouter.put(
+    "/:isbn", 
+    requireAuth, 
+    requireRole(UserRole.ADMIN), 
+    upload.single("file"), 
+    updateBook
+);
+
+bookRouter.delete(
+    "/:isbn", 
+    requireAuth, 
+    requireRole(UserRole.ADMIN), 
+    deleteBook
+);
 
 export default bookRouter;
